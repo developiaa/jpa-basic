@@ -1,6 +1,7 @@
 package type;
 
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 public class Address {
@@ -22,7 +23,8 @@ public class Address {
         return city;
     }
 
-    public void setCity(String city) {
+    // 값 타입은 불변 객체로 설계
+    private void setCity(String city) {
         this.city = city;
     }
 
@@ -30,7 +32,8 @@ public class Address {
         return street;
     }
 
-    public void setStreet(String street) {
+    // 값 타입은 불변 객체로 설계
+    private void setStreet(String street) {
         this.street = street;
     }
 
@@ -38,7 +41,22 @@ public class Address {
         return zipcode;
     }
 
-    public void setZipcode(String zipcode) {
+    // 값 타입은 불변 객체로 설계
+    private void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    // 값 타입의 동등성 비교를 위해 메소드를 재정의
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(zipcode, address.zipcode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(city, street, zipcode);
     }
 }
